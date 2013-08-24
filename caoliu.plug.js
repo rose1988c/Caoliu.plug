@@ -4,7 +4,7 @@
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」
 // @downloadURL	http://userscripts.org/scripts/source/151695.user.js
 // @updateURL   http://userscripts.org/scripts/source/151695.meta.js
-// @copyright 2012 - The CYW
+// @copyright 2012-2013 The CYW
 // @require http://code.jquery.com/jquery.min.js
 // @include http://*t66y*
 // @include http://*184*
