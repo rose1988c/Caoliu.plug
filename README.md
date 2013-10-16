@@ -3,7 +3,9 @@ Caoliu.plug
 
 CL1024 - Caoliu.plug - 草榴社区
 
-[地址](http://1024.site44.com)
+[油猴子地址](http://userscripts.org/scripts/show/151695)
+
+[社区地址](http://1024.site44.com)
 
 > 君子有三惜;此生不学可惜，此日闲过可惜，此身一败可惜
 
