@@ -1,18 +1,18 @@
 // ==UserScript==
 // @name CL1024
-// @version 1.1.2
+// @version 1.1.3
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」
 // @downloadURL	http://userscripts.org/scripts/source/151695.user.js
 // @updateURL   http://userscripts.org/scripts/source/151695.meta.js
 // @copyright 2012-2013 The CYW
 // @require http://code.jquery.com/jquery.min.js
-// @include http://*t66y*
-// @include http://*184*
-// @include http://*shenyingwang*
-// @include http://*cl*
-// @include http://*c1*
-// @include http://*1024*
-// @include http://*caoliu*
+// @include *t66y*
+// @include *184*
+// @include *c1*
+// @include *cl*
+// @include *shenyingwang*
+// @include *1024*
+// @include *caoliu*
 // @grant       none
 // ==/UserScript==
 
@@ -181,7 +181,9 @@
 		KEY_ASCLL[String.fromCharCode(i).toLowerCase()] = i;
 	}
 
+	//=========================================================
 	// UTILS Func
+	//=========================================================
 	var UTILS = {
 	    addCss: function(str){
 	        var style = document.createElement('style');
@@ -217,7 +219,7 @@
 	    isArray: function(o){
 	        return Object.prototype.toString.call(o).indexOf('Array')!==-1;
 	    },
-	    array_prototype_del : function(array, n) {　//n表示第几项，从0开始算起。
+	    array_prototype_del: function(array, n){　//n表示第几项，从0开始算起。
 			if(n<0) {　//如果n<0，则不进行任何操作。
 		　　     return array;
 		    } else {
@@ -466,21 +468,23 @@
 		//======================================================================
 		// 2013年3月11日21:56:30 快捷键J K 
 		//======================================================================
-		// jwerty.key('j/J', function () { 
-		// 	UTILS.shortcut_key_current();
-		// 	UTILS.shortcut_key_jump(true, 'current-comment');
-		// });
-		// jwerty.key('k/K', function () { 
-		// 	UTILS.shortcut_key_current();
-		// 	UTILS.shortcut_key_jump(false, 'current-comment');			
-		// });
+		jwerty.key('j/J', function () { 
+			UTILS.shortcut_key_current();
+			UTILS.shortcut_key_jump(true, 'current-comment');
+			return false;
+		});
+		jwerty.key('k/K', function () { 
+			UTILS.shortcut_key_current();
+			UTILS.shortcut_key_jump(false, 'current-comment');
+			return false;	
+		});
 
-		// jwerty.key('.', function () { 
-		// 	UTILS.html_scrollTop_target();
-		// });
+		jwerty.key('.', function () { 
+			UTILS.html_scrollTop_target();
+			return false;
+		});
 
-		$(document).keydown(function(e){
-			console.log(KEY_ASCLL);
+		$(document[!input]).keydown(function(e){
             if(e.keyCode == KEY_ASCLL.j) {
 				UTILS.shortcut_key_current();
 				UTILS.shortcut_key_jump(true, 'current-comment');
