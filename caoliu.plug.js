@@ -149,7 +149,6 @@ var imgReady = (function () {
 	//=========================================================
 	//图片链接处理 - 不经过viidii跳转
 	//=========================================================
-	//$('.tiptop').width(1050).attr({'word-break':'normal', 'word-wrap' : 'normal'}).css({'float':'left'});
 
 	var regIsblog   = /htm_data|read.php/gi;
 	var showflag = regIsblog.test(window.location.href);
