@@ -34,7 +34,7 @@
 	};
 	
 	var PLANETWORK = {
-		isPlanet : function () {
+		isPlanetHasWater : function () {
 			return CONSTANTS.regularBlog.test(CONSTANTS.localurl);
 		},
 		Mercury : function () {
@@ -230,8 +230,8 @@
 		Neptune : function () {},
 		Pluto : function () {},
 		Solar : function () {
-			var isPlanet = this.isPlanet();
-			if (isPlanet) {
+			var isPlanetHasWater = this.isPlanetHasWater();
+			if (isPlanetHasWater) {
 				this.Mercury();
 				this.Venus();
 				this.Mars();
