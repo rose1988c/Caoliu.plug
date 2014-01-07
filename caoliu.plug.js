@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name CL1024
-// @version 1.1.2
-// @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」
+// @version 1.1.7
+// @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」
 // @downloadURL	http://userscripts.org/scripts/source/151695.user.js
 // @updateURL   http://userscripts.org/scripts/source/151695.meta.js
 // @copyright 2012-2013 The CYW
@@ -13,8 +13,85 @@
 // @include http://*c1*
 // @include http://*1024*
 // @include http://*caoliu*
+// @exclude http://*xunlei*
 // @grant       none
 // ==/UserScript==
+
+var imgReady = (function () {
+    var list = [], intervalId = null,
+
+    // 用来执行队列
+    tick = function () {
+        var i = 0;
+        for (; i < list.length; i++) {
+            list[i].end ? list.splice(i--, 1) : list[i]();
+        }
+        !list.length && stop();
+    },
+
+    // 停止所有定时器队列
+    stop = function () {
+        window.clearInterval(intervalId);
+        intervalId = null;
+    };
+
+    return function (url, ready, load, error) {
+        var onready, width, height, newWidth, newHeight,
+            img = new Image();
+
+        img.src = url;
+
+        // 如果图片被缓存，则直接返回缓存数据
+        if (img.complete) {
+            ready.call(img);
+            load && load.call(img);
+            return;
+        }
+
+        width = img.width;
+        height = img.height;
+
+        // 加载错误后的事件
+        img.onerror = function () {
+            error && error.call(img);
+            onready.end = true;
+            img = img.onload = img.onerror = null;
+        };
+
+        // 图片尺寸就绪
+        onready = function () {
+            newWidth = img.width;
+            newHeight = img.height;
+            if (newWidth !== width || newHeight !== height ||
+                // 如果图片已经在其他地方加载可使用面积检测
+                newWidth * newHeight > 1024
+            ) {
+                ready.call(img);
+                onready.end = true;
+            }
+        };
+        onready();
+
+        // 完全加载完毕的事件
+        img.onload = function () {
+            // onload在定时器时间差范围内可能比onready快
+            // 这里进行检查并保证onready优先执行
+            !onready.end && onready();
+
+            load && load.call(img);
+
+            // IE gif动画会循环执行onload，置空onload即可
+            img = img.onload = img.onerror = null;
+        };
+
+        // 加入队列中定期执行
+        if (!onready.end) {
+            list.push(onready);
+            // 无论何时只允许出现一个定时器，减少浏览器性能损耗
+            if (intervalId === null) intervalId = setInterval(tick, 40);
+        }
+    };
+})();
 
 (function (){
     
@@ -25,6 +102,7 @@
 	//2012-11-28 19:56:07 js版本转化jquery版本，方便后续功能增加
 	//=========================================================
 	var reCatvi = /www.viidii.com/;
+	var reCatvi2 = /www.viidii.info/;
 	var reCat = /hash/gi;//判断hash 直接转化磁链接
 
 	//=========================================================
@@ -49,19 +127,61 @@
 				thiz.attr("href", hrefconvert);
 		    }
 		}
+
+		if ( reCatvi2.test( hrefval ) ){
+			if ( reCat.test( hrefval ) ){
+			    var hrefconvert = hrefval.replace(/&z/g, "").split("hash=");
+			    if (hrefconvert.length > 1 ){
+					hrefconvert = 'magnet:?xt=urn:btih:' + hrefconvert[1].substring(3);
+			    } else {
+					hrefconvert = hrefval;
+			    }
+			    thiz.attr("href", hrefconvert);
+		    } else {
+			    //获得地址
+			    hrefconvert = hrefval.replace("http://www.viidii.info/?", "").replace(/______/g, ".").replace(/&z/g, "");
+				thiz.attr("href", hrefconvert);
+		    }
+		}
 		
 	});
 	
 	//=========================================================
 	//图片链接处理 - 不经过viidii跳转
 	//=========================================================
+	//$('.tiptop').width(1050).attr({'word-break':'normal', 'word-wrap' : 'normal'}).css({'float':'left'});
+
+	var regIsblog   = /htm_data|read.php/gi;
+	var showflag = regIsblog.test(window.location.href);
+
 	$("img,input[type=image]").each(function(){
 		var thiz = $(this);
 		var thizonclick = thiz.attr("onclick");
 		if ( reCatvi.test( thizonclick ) ){
 			var newonclick = thizonclick.replace("http://www.viidii.com/?", "").replace(/______/g, ".").replace(/&z/g, "");
-			thiz.attr("onclick", newonclick);
+			thiz.attr("onclick", newonclick).css('cursor', 'pointer');
 		}
+		if ( reCatvi2.test( thizonclick ) ){
+			var newonclick = thizonclick.replace("http://www.viidii.info/?", "").replace(/______/g, ".").replace(/&z/g, "");
+			thiz.attr("onclick", newonclick).css('cursor', 'pointer');
+		}
+
+		if (thiz.parent().attr('class') != 'tac' && showflag){
+		    var setwidth = parseInt(screen.width) - 395 ;
+			imgReady(thiz.attr('src'), function() {
+				var imgWidth = this.width;
+			    var imgHeight = this.height;
+			    if(imgWidth > setwidth){
+			    	 newWidth = setwidth;
+			         newHeight = (setwidth/imgWidth)*imgHeight; 
+			         thiz.width(newWidth);
+			         thiz.height(newHeight);
+			    }
+				thiz.closest('td').width(setwidth + 16);
+				thiz.closest('div').width(setwidth + 16);
+	  	    });
+		}
+
 	});
 
 	//=========================================================
@@ -360,7 +480,6 @@
 		}
 	};
 
-	
 	var locationurl = window.location.href;
 	var readurl     = 'http://' + window.location.host + '/read.php';
 	var showflag    = false;
@@ -373,7 +492,8 @@
 		$("a[class=s3]").each(function(i, val){
 			var a_html = $(this).html();
 			if (a_html.indexOf('樓') > 0 ){
-				var parentdiv = $(this).parent().parent().parent().parent().parent().parent().parent();
+				var parentdiv = $(this).closest('div.t2');
+				a_html = a_html.replace(/[^0-9]/ig,""); 
 				parentdiv.attr('id', 'post_' + parseInt(a_html));
 			}
 		});
@@ -480,7 +600,7 @@
 		// });
 
 		$(document).keydown(function(e){
-			console.log(KEY_ASCLL);
+			//console.log(KEY_ASCLL);
             if(e.keyCode == KEY_ASCLL.j) {
 				UTILS.shortcut_key_current();
 				UTILS.shortcut_key_jump(true, 'current-comment');
