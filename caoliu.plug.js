@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name CL1024
-// @version 1.1.7
+// @version 1.1.8
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」
 // @downloadURL	http://userscripts.org/scripts/source/151695.user.js
 // @updateURL   http://userscripts.org/scripts/source/151695.meta.js
@@ -17,190 +17,234 @@
 // @grant       none
 // ==/UserScript==
 
-var imgReady = (function () {
-    var list = [], intervalId = null,
+// @1.1.8 优化代码
 
-    // 用来执行队列
-    tick = function () {
-        var i = 0;
-        for (; i < list.length; i++) {
-            list[i].end ? list.splice(i--, 1) : list[i]();
-        }
-        !list.length && stop();
-    },
-
-    // 停止所有定时器队列
-    stop = function () {
-        window.clearInterval(intervalId);
-        intervalId = null;
-    };
-
-    return function (url, ready, load, error) {
-        var onready, width, height, newWidth, newHeight,
-            img = new Image();
-
-        img.src = url;
-
-        // 如果图片被缓存，则直接返回缓存数据
-        if (img.complete) {
-            ready.call(img);
-            load && load.call(img);
-            return;
-        }
-
-        width = img.width;
-        height = img.height;
-
-        // 加载错误后的事件
-        img.onerror = function () {
-            error && error.call(img);
-            onready.end = true;
-            img = img.onload = img.onerror = null;
-        };
-
-        // 图片尺寸就绪
-        onready = function () {
-            newWidth = img.width;
-            newHeight = img.height;
-            if (newWidth !== width || newHeight !== height ||
-                // 如果图片已经在其他地方加载可使用面积检测
-                newWidth * newHeight > 1024
-            ) {
-                ready.call(img);
-                onready.end = true;
-            }
-        };
-        onready();
-
-        // 完全加载完毕的事件
-        img.onload = function () {
-            // onload在定时器时间差范围内可能比onready快
-            // 这里进行检查并保证onready优先执行
-            !onready.end && onready();
-
-            load && load.call(img);
-
-            // IE gif动画会循环执行onload，置空onload即可
-            img = img.onload = img.onerror = null;
-        };
-
-        // 加入队列中定期执行
-        if (!onready.end) {
-            list.push(onready);
-            // 无论何时只允许出现一个定时器，减少浏览器性能损耗
-            if (intervalId === null) intervalId = setInterval(tick, 40);
-        }
-    };
-})();
-
-(function (){
-    
-    //浏览器判断
-    //if (navigator.userAgent.indexOf('Chrome') > 0 ){ }
+;(function (){
 	
-	//=========================================================
-	//2012-11-28 19:56:07 js版本转化jquery版本，方便后续功能增加
-	//=========================================================
-	var reCatvi = /www.viidii.com/;
-	var reCatvi2 = /www.viidii.info/;
-	var reCat = /hash/gi;//判断hash 直接转化磁链接
-
-	//=========================================================
-	//所有种子链接转化为磁力链接
-	//=========================================================
-	$("a").each(function(){
-		var thiz = $(this);
-		var hrefval = thiz.attr("href"); 
-		
-		if ( reCatvi.test( hrefval ) ){
-			if ( reCat.test( hrefval ) ){
-			    var hrefconvert = hrefval.replace(/&z/g, "").split("hash=");
-			    if (hrefconvert.length > 1 ){
-					hrefconvert = 'magnet:?xt=urn:btih:' + hrefconvert[1].substring(3);
-			    } else {
-					hrefconvert = hrefval;
-			    }
-			    thiz.attr("href", hrefconvert);
-		    } else {
-			    //获得地址
-			    hrefconvert = hrefval.replace("http://www.viidii.com/?", "").replace(/______/g, ".").replace(/&z/g, "");
-				thiz.attr("href", hrefconvert);
-		    }
-		}
-
-		if ( reCatvi2.test( hrefval ) ){
-			if ( reCat.test( hrefval ) ){
-			    var hrefconvert = hrefval.replace(/&z/g, "").split("hash=");
-			    if (hrefconvert.length > 1 ){
-					hrefconvert = 'magnet:?xt=urn:btih:' + hrefconvert[1].substring(3);
-			    } else {
-					hrefconvert = hrefval;
-			    }
-			    thiz.attr("href", hrefconvert);
-		    } else {
-			    //获得地址
-			    hrefconvert = hrefval.replace("http://www.viidii.info/?", "").replace(/______/g, ".").replace(/&z/g, "");
-				thiz.attr("href", hrefconvert);
-		    }
-		}
-		
-	});
-	
-	//=========================================================
-	//图片链接处理 - 不经过viidii跳转
-	//=========================================================
-
-	var regIsblog   = /htm_data|read.php/gi;
-	var showflag = regIsblog.test(window.location.href);
-
-	$("img,input[type=image]").each(function(){
-		var thiz = $(this);
-		var thizonclick = thiz.attr("onclick");
-		if ( reCatvi.test( thizonclick ) ){
-			var newonclick = thizonclick.replace("http://www.viidii.com/?", "").replace(/______/g, ".").replace(/&z/g, "");
-			thiz.attr("onclick", newonclick).css('cursor', 'pointer');
-		}
-		if ( reCatvi2.test( thizonclick ) ){
-			var newonclick = thizonclick.replace("http://www.viidii.info/?", "").replace(/______/g, ".").replace(/&z/g, "");
-			thiz.attr("onclick", newonclick).css('cursor', 'pointer');
-		}
-
-		if (thiz.parent().attr('class') != 'tac' && showflag){
-		    var setwidth = parseInt(screen.width) - 395 ;
-			imgReady(thiz.attr('src'), function() {
-				var imgWidth = this.width;
-			    var imgHeight = this.height;
-			    if(imgWidth > setwidth){
-			    	 newWidth = setwidth;
-			         newHeight = (setwidth/imgWidth)*imgHeight; 
-			         thiz.width(newWidth);
-			         thiz.height(newHeight);
-			    }
-				thiz.closest('td').width(setwidth + 16);
-				thiz.closest('div').width(setwidth + 16);
-	  	    });
-		}
-
-	});
-
-	//=========================================================
-	//去tips广告
-	//=========================================================
-	//$(".tips").remove();
-	$(".sptable").parent().remove();
-	
-
-	//=========================================================
-	// 2012年12月23日21:26:30 新增楼层跳转，封装系列方法
-	//=========================================================
-	//楼层跳转
 	var CONSTANTS = {
-	    tips: '<div class="tips_container"><div class="close">X</div>去<input type="text" class="input-w80" placeholder="" id="wantlc" name="wantlc" />樓<input type="button" id="gotolc" value="Go" /> or <input type="button" id="goback" value="Back" onclick="history.go(-1);"><br /></div>',
-	    css: '.tips_container{position:fixed;bottom:2em;right:2em;color:green;opacity:0.4;background:#fff;padding:10px;z-index:99999}.tips_container:hover{opacity:0.9}.tips_container .close{position:absolute;top:0;right:0;color:red;cursor:pointer}.tips_container select, .tips_container select option{max-width:18em} input.input-w80 {background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #B2CCCC; height: 18px;line-height: 18px;margin: 2px;padding: 0 3px;width:40px;}.hidden1024{height:36px;overflow:hidden;}',
-	    indexcss: '.posttoday{color:#f60;}'
+		'localurl' : window.location.href,
+		'localhost' : window.location.host,
+		'regularVii' : /www.viidii.com|www.viidii.info/,
+		'regularBlog' : /htm_data|read.php/gi,
+		'regularCat' : /hash/gi,
+		'readurl' : 'http://' + window.location.host + '/read.php',
+		'tips' : '<div class="tips_container"><div class="close">X</div>去<input type="text" class="input-w80" placeholder="" id="wantlc" name="wantlc" />樓<input type="button" id="gotolc" value="Go" /> or <input type="button" id="goback" value="Back" onclick="history.go(-1);"><br /></div>',
+		'css' : '.tips_container{position:fixed;bottom:2em;right:2em;color:green;opacity:0.4;background:#fff;padding:10px;z-index:99999}.tips_container:hover{opacity:0.9}.tips_container .close{position:absolute;top:0;right:0;color:red;cursor:pointer}.tips_container select, .tips_container select option{max-width:18em} input.input-w80 {background: none repeat scroll 0 0 #FFFFFF; border: 1px solid #B2CCCC; height: 18px;line-height: 18px;margin: 2px;padding: 0 3px;width:40px;}.hidden1024{height:36px;overflow:hidden;}',
+		'indexcss' : '.posttoday{color:#f60;}'
 	};
+	
+	var PLANETWORK = {
+		isPlanetHasWater : function () {
+			return CONSTANTS.regularBlog.test(CONSTANTS.localurl);
+		},
+		Mercury : function () {
+			$('a').each(function(){
+				var thiz = $(this);
+				var hrefval = thiz.attr("href"); 
+				if ( CONSTANTS.regularVii.test( hrefval ) ){
+					if ( CONSTANTS.regularCat.test( hrefval ) ){
+					    var hrefconvert = hrefval.replace(/&z/g, "").split("hash=");
+					    if (hrefconvert.length > 1 ){
+							hrefconvert = 'magnet:?xt=urn:btih:' + hrefconvert[1].substring(3);
+							thiz.parent().append('<a href="' + hrefval + '" target="_blank">下载种子</a>');
+					    } else {
+							hrefconvert = hrefval;
+					    }
+					    thiz.attr("href", hrefconvert);
+				    } else {
+					    var hrefconvert = hrefval
+					    	.replace("http://www.viidii.com/?", "")
+					    	.replace("http://www.viidii.info/?", "")
+					    	.replace(/______/g, ".")
+					    	.replace(/&z/g, "");
+						thiz.attr("href", hrefconvert);
+				    }
+				}
+			});
+		},
+		Venus : function () {
+			$("img,input[type=image]").each(function(){
+				var thiz = $(this);
+				var thizonclick = thiz.attr("onclick");
+				if ( CONSTANTS.regularVii.test( thizonclick ) ){
+					var newonclick = thizonclick
+						.replace("http://www.viidii.com/?", "")
+						.replace("http://www.viidii.info/?", "")
+						.replace(/______/g, ".").replace(/&z/g, "");
+					thiz.attr("onclick", newonclick).css('cursor', 'pointer');
+				}
 
-	//hot key
+				if (thiz.parent().attr('class') != 'tac'){
+				    var setwidth = parseInt(screen.width) - 395 ;
+					imgReady(thiz.attr('src'), function() {
+						var imgWidth = this.width;
+					    var imgHeight = this.height;
+					    if(imgWidth > setwidth){
+					    	 newWidth = setwidth;
+					         newHeight = (setwidth/imgWidth)*imgHeight; 
+					         thiz.width(newWidth);
+					         thiz.height(newHeight);
+					    }
+						thiz.closest('td').width(setwidth + 16);
+						thiz.closest('div').width(setwidth + 16);
+			  	    });
+				}
+			});
+		},
+		Earth : function () {
+			$(".sptable").parent().remove();
+		},
+		Mars : function () {
+			var target = UTILS.getQueryStringByName('target');
+			
+			$("a[class=s3]").each(function(i, val){
+				var a_html = $(this).html();
+				if (a_html.indexOf('樓') > 0 ){
+					var parentdiv = $(this).closest('div.t2');
+					a_html = a_html.replace(/[^0-9]/ig,""); 
+					parentdiv.attr('id', 'post_' + parseInt(a_html));
+				}
+			});
+
+			UTILS.addCss(CONSTANTS.css);
+			UTILS.addDom(CONSTANTS.tips, function(){ return false;});
+			UTILS.onlynum('wantlc');
+
+			// Bind Quick redirct by input Enter Key - cat
+			$('#wantlc').bind('keyup',function(event){
+			    if(event.keyCode == 13) {
+			        $('#gotolc').click();
+			    }
+			});
+
+			// $("#wantlc").focus(); 悲剧，先注释了。
+
+			$(".close").click(function(){
+				$(this).parent().remove();
+			});
+
+			$("#gotolc").click(function(){
+			    var wantlc = parseInt($(this).prev().val());// 想去的楼层 - cyw
+			    var locationurlarray = UTILS.getQueryString(CONSTANTS.localurl);
+			    
+			    if (wantlc != '') {
+			    	var urlgetpage = UTILS.getQueryStringByName('page');
+			    	var page = Math.ceil( (wantlc + 1 ) /25);
+
+			    	if (urlgetpage == page) {
+			    		UTILS.html_scrollTop_target('post_' + wantlc);
+			    		return false;
+			    	}
+
+			        if ( locationurlarray.length > 1){
+						var rePage   = /page/gi;
+						var reTarget = /target/gi;
+			            for (var i = locationurlarray.length - 1; i >= 0; i--) {
+			            	// page and target
+			                if ( rePage.test( locationurlarray[i] ) ){
+				    	   		locationurlarray[i] = 'page=' + page;            
+				       		}
+			                if ( reTarget.test( locationurlarray[i] ) ){
+			                	locationurlarray = UTILS.array_prototype_del(locationurlarray, i);      
+				       		}
+			            };
+			            locationurlarray = locationurlarray.join('&');
+			            window.location.href = CONSTANTS.readurl + "?" + locationurlarray + '&target=post_' + wantlc;
+			            // window.open();
+			            return false;
+			        } else {
+			            locationurlarray = CONSTANTS.localurl.split("/");// Get tid
+			            var tid = locationurlarray.pop().split(".");
+			            if (typeof(tid[0]) != "undefined") {
+			            	tid = tid[0];
+			            	window.location.href = CONSTANTS.readurl + '?tid=' + tid + '&page=' + page + '&target=post_' + wantlc;
+			            	return false;
+			            }
+			        }
+			    }
+			});
+		
+			UTILS.html_scrollTop_target(target);
+
+			//hide1024
+			$("div.t2").each(function(){
+				var thiz = $(this);
+				var html = thiz.children().find('.tpc_content').html();
+				var thiz_id = thiz.attr("id");
+				
+				if (  html == '1024' ){
+					thiz.addClass("hidden1024");
+
+					var tiptop  = thiz.find(".tiptop");
+					var thiz_lc = thiz.find('.tipad > span:last').children().clone();
+					tiptop.append('<a class="show1024" class="act-show-1024" rel="'+ thiz_id +'" style="color:green" href="javascript:void(0);">显示</a> | ').append(thiz_lc);
+				}
+
+			});
+
+			$(".show1024").click(function(){
+				var thiz_id = $(this).attr("rel");
+				$("#" + thiz_id).toggleClass("hidden1024");
+			});
+
+			//快捷键
+			$(document).keydown(function(e){
+	            if(e.keyCode == KEY_ASCLL.j) {
+					UTILS.shortcut_key_current();
+					UTILS.shortcut_key_jump(true, 'current-comment');
+	                return false;
+	            }
+	            if(e.keyCode == KEY_ASCLL.k) {
+					UTILS.shortcut_key_current();
+					UTILS.shortcut_key_jump(false, 'current-comment');		
+	                return false;
+	            }
+	            if(e.keyCode == KEY_ASCLL.period) {
+	                UTILS.html_scrollTop_target('top');
+	                return false;
+	            }
+	            if(e.keyCode == KEY_ASCLL.f6) {
+	                window.location.href = '/' + 'thread0806.php?fid=7';
+	                return false;
+	            }
+	        }); 
+		},
+		Jupiter : function () {
+			// today 样式
+			UTILS.addCss(CONSTANTS.indexcss);
+
+			var today =  new Date();
+			today = UTILS.data_format(today, 'yyyy-MM-dd');
+
+			$(".tr3").each(function(){
+				var tr3 = $(this);
+				var postdata = $(this).find("a[class=bl]").next();
+				if (postdata.text() == today){
+					postdata.addClass('posttoday');
+					tr3.find("td:first").children().html("Today").addClass('posttoday').css("border-bottom", "1px dotted tomato");
+				}
+			});
+		},
+		Saturn : function () {},
+		Uranus : function () {},
+		Neptune : function () {},
+		Pluto : function () {},
+		Solar : function () {
+			var isPlanetHasWater = this.isPlanetHasWater();
+			if (isPlanetHasWater) {
+				this.Mercury();
+				this.Venus();
+				this.Mars();
+			}
+			this.Earth();
+			this.Jupiter();
+		}
+	};
+	
+	// ======================================================================
+	// Helper
+	// ======================================================================
+	// hot key
 	var KEY_ASCLL = {
 		// Shift key, ⇧
 		'⇧': 16, 'shift': 16,
@@ -253,17 +297,17 @@ var imgReady = (function () {
 		'+': 107, 'plus': 107,
 		// Num-Subtract, or -
 		'-': 109, 'subtract': 109,
-		//';': 186, //???
+		// ';': 186, //???
 		// = or equals
 		'=': 187, 'equals': 187,
 		// Comma, or ,
 		',': 188, 'comma': 188,
-		//'-': 189, //???
+		// '-': 189, //???
 		// Period, or ., or full-stop
 		'.': 190, 'period': 190, 'full-stop': 190,
 		// Slash, or /, or forward-slash
 		'/': 191, 'slash': 191, 'forward-slash': 191,
-		// Tick, or `, or back-quote 
+		// Tick, or `, or back-quote
 		'`': 192, 'tick': 192, 'back-quote': 192,
 		// Open bracket, or [
 		'[': 219, 'open-bracket': 219,
@@ -299,7 +343,84 @@ var imgReady = (function () {
 	while(++i < 91) {
 		KEY_ASCLL[String.fromCharCode(i).toLowerCase()] = i;
 	}
-
+	//hotkey
+	
+	var imgReady = (function () {
+	    var list = [], intervalId = null,
+	
+	    // 用来执行队列
+	    tick = function () {
+	        var i = 0;
+	        for (; i < list.length; i++) {
+	            list[i].end ? list.splice(i--, 1) : list[i]();
+	        }
+	        !list.length && stop();
+	    },
+	
+	    // 停止所有定时器队列
+	    stop = function () {
+	        window.clearInterval(intervalId);
+	        intervalId = null;
+	    };
+	
+	    return function (url, ready, load, error) {
+	        var onready, width, height, newWidth, newHeight,
+	            img = new Image();
+	
+	        img.src = url;
+	
+	        // 如果图片被缓存，则直接返回缓存数据
+	        if (img.complete) {
+	            ready.call(img);
+	            load && load.call(img);
+	            return;
+	        }
+	
+	        width = img.width;
+	        height = img.height;
+	
+	        // 加载错误后的事件
+	        img.onerror = function () {
+	            error && error.call(img);
+	            onready.end = true;
+	            img = img.onload = img.onerror = null;
+	        };
+	
+	        // 图片尺寸就绪
+	        onready = function () {
+	            newWidth = img.width;
+	            newHeight = img.height;
+	            if (newWidth !== width || newHeight !== height ||
+	                // 如果图片已经在其他地方加载可使用面积检测
+	                newWidth * newHeight > 1024
+	            ) {
+	                ready.call(img);
+	                onready.end = true;
+	            }
+	        };
+	        onready();
+	
+	        // 完全加载完毕的事件
+	        img.onload = function () {
+	            // onload在定时器时间差范围内可能比onready快
+	            // 这里进行检查并保证onready优先执行
+	            !onready.end && onready();
+	
+	            load && load.call(img);
+	
+	            // IE gif动画会循环执行onload，置空onload即可
+	            img = img.onload = img.onerror = null;
+	        };
+	
+	        // 加入队列中定期执行
+	        if (!onready.end) {
+	            list.push(onready);
+	            // 无论何时只允许出现一个定时器，减少浏览器性能损耗
+	            if (intervalId === null) intervalId = setInterval(tick, 40);
+	        }
+	    };
+	})();
+	
 	// UTILS Func
 	var UTILS = {
 	    addCss: function(str){
@@ -336,18 +457,17 @@ var imgReady = (function () {
 	    isArray: function(o){
 	        return Object.prototype.toString.call(o).indexOf('Array')!==-1;
 	    },
-	    array_prototype_del : function(array, n) {　//n表示第几项，从0开始算起。
-			if(n<0) {　//如果n<0，则不进行任何操作。
+	    array_prototype_del : function(array, n) {　// n表示第几项，从0开始算起。
+			if(n<0) {　// 如果n<0，则不进行任何操作。
 		　　     return array;
 		    } else {
 		　　     return array.slice(0,n).concat(array.slice(n+1,array.length));
 		    }
 		　　/*
-		　　　concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。
-		　　　　　　　　　这里就是返回this.slice(0,n)/this.slice(n+1,this.length)
-		　　 　　　　　　组成的新数组，这中间，刚好少了第n项。
-		　　　slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。
-		　　*/
+			 * concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。
+			 * 这里就是返回this.slice(0,n)/this.slice(n+1,this.length)
+			 * 组成的新数组，这中间，刚好少了第n项。 slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。
+			 */
 		},
 	    onlynum: function (input){
 	        $("#" + input).keyup(function(e){
@@ -414,20 +534,18 @@ var imgReady = (function () {
 	            return false;
 			}
 	    },
-	     /** 
-         * js时间对象的格式化;
-         * this new Data()
-         * eg:format="yyyy-MM-dd hh:mm:ss";  
-         */ 
+	     /**
+			 * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
+			 */ 
          data_format : function(data, format){ 
 	         var o = { 
-	              "M+" :  data.getMonth()+1,  //month 
-	              "d+" :  data.getDate(),     //day 
-	              "h+" :  data.getHours(),    //hour 
-	              "m+" :  data.getMinutes(),  //minute 
-	              "s+" :  data.getSeconds(), //second 
-	              "q+" :  Math.floor((data.getMonth()+3)/3),  //quarter 
-	              "S"  :  data.getMilliseconds() //millisecond 
+	              "M+" :  data.getMonth()+1,  // month
+	              "d+" :  data.getDate(),     // day
+	              "h+" :  data.getHours(),    // hour
+	              "m+" :  data.getMinutes(),  // minute
+	              "s+" :  data.getSeconds(), // second
+	              "q+" :  Math.floor((data.getMonth()+3)/3),  // quarter
+	              "S"  :  data.getMilliseconds() // millisecond
             }
             if(/(y+)/.test(format)) { 
             	format = format.replace(RegExp.$1, (data.getFullYear()+"").substr(4 - RegExp.$1.length));
@@ -448,7 +566,7 @@ var imgReady = (function () {
 				current.removeClass(className);
 				next.addClass(className);
 
-				//var next_div = next[0];
+				// var next_div = next[0];
 	    		UTILS.html_scrollTop_target(next.attr("id"), 300);
 	    		return false;
 
@@ -478,166 +596,7 @@ var imgReady = (function () {
 			}
 		}
 	};
-
-	var locationurl = window.location.href;
-	var readurl     = 'http://' + window.location.host + '/read.php';
-	var showflag    = false;
-	var regIsblog   = /htm_data|read.php/gi;
-	var target 		= UTILS.getQueryStringByName('target');
-	showflag = regIsblog.test(locationurl);
-
-	if (showflag) {
-		//优化 - 增加楼层
-		$("a[class=s3]").each(function(i, val){
-			var a_html = $(this).html();
-			if (a_html.indexOf('樓') > 0 ){
-				var parentdiv = $(this).closest('div.t2');
-				a_html = a_html.replace(/[^0-9]/ig,""); 
-				parentdiv.attr('id', 'post_' + parseInt(a_html));
-			}
-		});
-
-		UTILS.addCss(CONSTANTS.css);
-		UTILS.addDom(CONSTANTS.tips, function(){ return false;});
-		UTILS.onlynum('wantlc');
-
-		//Bind Quick redirct by input Enter Key - cat
-		$('#wantlc').bind('keyup',function(event){
-		    if(event.keyCode == 13) {
-		        $('#gotolc').click();
-		    }
-		});
-
-		//$("#wantlc").focus(); 悲剧，先注释了。
-
-		$(".close").click(function(){
-			$(this).parent().remove();
-		});
-
-		$("#gotolc").click(function(){
-		    var wantlc = parseInt($(this).prev().val());//想去的楼层 - cyw
-		    var locationurlarray = UTILS.getQueryString(locationurl);//分析链接 - cyw
-		    
-		    if (wantlc != '') {
-		    	var urlgetpage = UTILS.getQueryStringByName('page');
-		    	var page = Math.ceil( (wantlc + 1 ) /25);
-
-		    	if (urlgetpage == page) {
-		    		UTILS.html_scrollTop_target('post_' + wantlc);
-		    		return false;
-		    	}
-
-		        if ( locationurlarray.length > 1){
-					var rePage   = /page/gi;
-					var reTarget = /target/gi;
-		            for (var i = locationurlarray.length - 1; i >= 0; i--) {
-		            	//page and target
-		                if ( rePage.test( locationurlarray[i] ) ){
-			    	   		locationurlarray[i] = 'page=' + page;            
-			       		}
-		                if ( reTarget.test( locationurlarray[i] ) ){
-		                	locationurlarray = UTILS.array_prototype_del(locationurlarray, i);      
-			       		}
-		            };
-		            locationurlarray = locationurlarray.join('&');
-		            window.location.href = readurl + "?" + locationurlarray + '&target=post_' + wantlc;
-		            //window.open();
-		            return false;
-		        } else {
-		            locationurlarray = locationurl.split("/");//Get tid 
-		            var tid = locationurlarray.pop().split(".");
-		            if (typeof(tid[0]) != "undefined") {
-		            	tid = tid[0];
-		            	window.location.href = readurl + '?tid=' + tid + '&page=' + page + '&target=post_' + wantlc;
-		            	return false;
-		            }
-		        }
-		    }
-		});
 	
-		UTILS.html_scrollTop_target(target);
-
-
-		//======================================================================
-		// 2013-1-16 22:36:48 隐藏论坛中无意义的1024跟帖
-		//======================================================================
-		$("div.t2").each(function(){
-			var thiz = $(this);
-			var html = thiz.children().find('.tpc_content').html();
-			var thiz_id = thiz.attr("id");
-			
-			if (  html == '1024' ){
-				thiz.addClass("hidden1024");
-
-				var tiptop  = thiz.find(".tiptop");
-				var thiz_lc = thiz.find('.tipad > span:last').children().clone();
-				tiptop.append('<a class="show1024" class="act-show-1024" rel="'+ thiz_id +'" style="color:green" href="javascript:void(0);">显示</a> | ').append(thiz_lc);
-			}
-
-		});
-
-		$(".show1024").click(function(){
-			var thiz_id = $(this).attr("rel");
-			$("#" + thiz_id).toggleClass("hidden1024");
-		});
-
-
-		//======================================================================
-		// 2013年3月11日21:56:30 快捷键J K 
-		//======================================================================
-		// jwerty.key('j/J', function () { 
-		// 	UTILS.shortcut_key_current();
-		// 	UTILS.shortcut_key_jump(true, 'current-comment');
-		// });
-		// jwerty.key('k/K', function () { 
-		// 	UTILS.shortcut_key_current();
-		// 	UTILS.shortcut_key_jump(false, 'current-comment');			
-		// });
-
-		// jwerty.key('.', function () { 
-		// 	UTILS.html_scrollTop_target();
-		// });
-
-		$(document).keydown(function(e){
-			//console.log(KEY_ASCLL);
-            if(e.keyCode == KEY_ASCLL.j) {
-				UTILS.shortcut_key_current();
-				UTILS.shortcut_key_jump(true, 'current-comment');
-                return false;
-            }
-            if(e.keyCode == KEY_ASCLL.k) {
-				UTILS.shortcut_key_current();
-				UTILS.shortcut_key_jump(false, 'current-comment');		
-                return false;
-            }
-            if(e.keyCode == KEY_ASCLL.period) {
-                UTILS.html_scrollTop_target('top');
-                return false;
-            }
-            if(e.keyCode == KEY_ASCLL.f6) {
-                window.location.href = '/' + 'thread0806.php?fid=7';
-                return false;
-            }
-        }); 
-	}
-
-	//======================================================================
-	// 区别今天发的帖子，列表标题左边将.::显示橘色，用户名下日期显示橘色
-	//======================================================================
-
-	//today 样式
-	UTILS.addCss(CONSTANTS.indexcss);
-
-	var today =  new Date();
-	today = UTILS.data_format(today, 'yyyy-MM-dd');
-
-	$(".tr3").each(function(){
-		var tr3 = $(this);
-		var postdata = $(this).find("a[class=bl]").next();
-		if (postdata.text() == today){
-			postdata.addClass('posttoday');
-			tr3.find("td:first").children().html("Today").addClass('posttoday').css("border-bottom", "1px dotted tomato");
-		}
-	});
-
-}());
+	//太阳系行星工作
+	PLANETWORK.Solar();
+})();
