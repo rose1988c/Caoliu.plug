@@ -1,9 +1,9 @@
 CL1024 - Caoliu.plug - 草榴社区
 ===========
 
-## 油猴子地址
+## 脚本地址
 
-[油猴子地址](http://userscripts.org/scripts/show/151695)
+[脚本地址](http://userscripts.org/scripts/show/151695)
 
 <h3>社区地址</h3>
 
