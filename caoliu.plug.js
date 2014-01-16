@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name CL1024
-// @version 1.1.8
+// @version 1.1.9
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」
-// @downloadURL http://userscripts.org/scripts/source/151695.user.js
-// @updateURL http://userscripts.org/scripts/source/151695.meta.js
-// @copyright 2012-2014 The CYW rose1988.c@gmail.com
-// @author rose1988.c@gmail.com
+// @downloadURL	http://userscripts.org/scripts/source/151695.user.js
+// @updateURL   http://userscripts.org/scripts/source/151695.meta.js
+// @copyright 2012-2013 The CYW
 // @require http://code.jquery.com/jquery.min.js
 // @include http://*t66y*
 // @include http://*184*
@@ -18,11 +17,30 @@
 // @grant       none
 // ==/UserScript==
 
-// @1.1.8 优化代码
+// @author	rose1988c
+// @code	https://github.com/rose1988c/Caoliu.plug
+// @blog	http://rose1988c.github.io/review
+// @date	2012.11.15
+// @modified	2012.11.15	磁链接转化
+// @modified	2012.11.28	去广告
+// @modified	2012.12.23	帖子按楼跳转页面，方便用户在<求片求助贴>找片
+// @modified	2013.01.05	按楼跳转页面,并'定位指定楼层'
+// @modified	2013.01.17	隐藏1024的回复
+// @modified	2013.03.11	今日帖子高亮 - 列表标题左边“.::”将改为“Today”
+// @modified	2013.03.12	[暂失效]新增快捷键 - 打开帖子， __J__为下一个回复，__K__为上一个回复，点__.__返回顶部
+// @modified	2013.03.18	修复bug - 回复后滚动条跳到顶部
+// @1.1.4	2014.01.03	更新 - vivi跳转更新
+// @1.1.5	2014-01-03	更新 - 修复点击[显示]无效
+// @1.1.6	2014-01-03	BUG - 排除迅雷离线页面加载脚本。感谢@文科
+// @1.1.7	2014-01-03	更新 - 超高清、大图根据屏幕尺寸缩放到适合屏幕大小
+// @1.1.7	2014-01-03	BUG - 修复点击[显示]无效
+// @1.1.8	2014-01-04	更新 - 新增点击下载种子
+// @1.1.9	2014-1-14   增加统计
 
 ;(function (){
         
         var CONSTANTS = {
+        		'version' : '1.1.9',
                 'localurl' : window.location.href,
                 'localhost' : window.location.host,
                 'regularVii' : /www.viidii.com|www.viidii.info/,
@@ -47,7 +65,7 @@
                                             var hrefconvert = hrefval.replace(/&z/g, "").split("hash=");
                                             if (hrefconvert.length > 1 ){
                                                         hrefconvert = 'magnet:?xt=urn:btih:' + hrefconvert[1].substring(3);
-                                                        thiz.parent().append('<a href="' + hrefval + '" target="_blank">下载种子</a>');
+                                                        thiz.after('<a href="' + hrefval + '" target="_blank">下载种子</a>');
                                             } else {
                                                         hrefconvert = hrefval;
                                             }
@@ -226,7 +244,20 @@
                                 }
                         });
                 },
-                Saturn : function () {},
+                Saturn : function () {
+                	    var js = "var _gaq = _gaq || [];";
+					    js += "_gaq.push(['_setAccount', 'UA-47114657-1']);";
+					    js += "_gaq.push(['_trackPageview']);";
+					    js += "function googleAnalytics(){";
+					    js += "        var ga = document.createElement('script');ga.type = 'text/javascript';";
+					    js += "        ga.async = true;ga.src = 'https://ssl.google-analytics.com/ga.js';";
+					    js += "        var s = document.getElementsByTagName('script')[0];";
+					    js += "        s.parentNode.insertBefore(ga, s)";
+					    js += "}";
+					    js += "googleAnalytics();";
+					    js += "_gaq.push(['_trackEvent','dupanlink_script',String('" + CONSTANTS.version + "')]);";
+					    UTILS.addScript(js);
+                },
                 Uranus : function () {},
                 Neptune : function () {},
                 Pluto : function () {},
@@ -239,6 +270,7 @@
                         }
                         this.Earth();
                         this.Jupiter();
+                        this.Saturn();
                 }
         };
         
@@ -434,6 +466,13 @@
                 script.src = src;
                 document.body.appendChild(script);
             },
+            addScript: function (js){
+			    var oHead = document.getElementsByTagName('HEAD')[0],
+			    oScript = document.createElement('script');
+			    oScript.type = 'text/javascript';
+			    oScript.text = js;
+			    oHead.appendChild(oScript);
+            },
             addDom: function(html, callback){
                 var div = document.createElement('div');
                 div.innerHTML = html;
@@ -536,9 +575,9 @@
                         }
             },
              /**
-                         * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
-                         */ 
-         data_format : function(data, format){ 
+             * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
+             */ 
+         	data_format : function(data, format){ 
                  var o = { 
                       "M+" :  data.getMonth()+1,  // month
                       "d+" :  data.getDate(),     // day
@@ -557,45 +596,41 @@
                      } 
             } 
                  return format; 
-        },
-                shortcut_key_jump : function (isDown, currentclass){
-                        var className = currentclass;
-                        var current = $('.' + className).first(),
-                        next = undefined;
-                        next = isDown ? current.next().next('.t2') : current.prev().prev('.t2');
-                        if (next && next.length) {
-                                current.removeClass(className);
-                                next.addClass(className);
+        	},
+            shortcut_key_jump : function (isDown, currentclass){
+                var className = currentclass;
+                var current = $('.' + className).first(),
+                next = undefined;
+                next = isDown ? current.next().next('.t2') : current.prev().prev('.t2');
+                if (next && next.length) {
+                        current.removeClass(className);
+                        next.addClass(className);
 
-                                // var next_div = next[0];
-                            UTILS.html_scrollTop_target(next.attr("id"), 300);
-                            return false;
+                        // var next_div = next[0];
+                    UTILS.html_scrollTop_target(next.attr("id"), 300);
+                    return false;
 
-                        }
-                },
-                shortcut_key_current : function (){
-
-                        var _class  = arguments[0] || '.t2';
-
-                        var _scrollTop = $(document).scrollTop();
-
-                        if ($('.current-comment').length > 0 ){
-                                return ;
-                        }
-
-                        if (_scrollTop == 0) {
-                                $(_class).first().addClass('current-comment'); 
-                        } else {
-                                $(_class).each(function(){
-                                        if ($(this).offset().top > _scrollTop && $('.current-comment').length == 0){
-                                                $(this).addClass('current-comment');
-                                                return ;
-                                        } else {
-                                                $(this).removeClass('current-comment');
-                                        }
-                                });
-                        }
                 }
+            },
+            shortcut_key_current : function (){
+                var _class  = arguments[0] || '.t2';
+                var _scrollTop = $(document).scrollTop();
+                if ($('.current-comment').length > 0 ){
+                        return ;
+                }
+                if (_scrollTop == 0) {
+                        $(_class).first().addClass('current-comment'); 
+                } else {
+                        $(_class).each(function(){
+                                if ($(this).offset().top > _scrollTop && $('.current-comment').length == 0){
+                                        $(this).addClass('current-comment');
+                                        return ;
+                                } else {
+                                        $(this).removeClass('current-comment');
+                                }
+                        });
+                }
+            }
         };
         
         //太阳系行星工作
