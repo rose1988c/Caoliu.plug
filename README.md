@@ -1,12 +1,48 @@
 CL1024 - Caoliu.plug - 草榴社区
 ===========
 
-[油猴子地址](http://userscripts.org/scripts/show/151695)
+## 脚本地址
 
-[社区地址](http://1024.farbox.com)
+[脚本地址](http://userscripts.org/scripts/show/151695)
 
-> 君子有三惜;此生不学可惜，此日闲过可惜，此身一败可惜
+<h3>社区地址</h3>
 
-> 孤军奋战，其力有限，众志成城，坚不可摧
+<p>[一]直接访问：<a href="http://cl.man.lv/index.php?u=225503&ext=b005f" target="_blank">1024CL</a></p>
 
-> 一个人的精力和力量终归有限，希望大家一起完善
+<p>[二]关注比特熊 - 适合pad等<img src="http://img-fotki.yandex.ru/get/6714/140361620.5/0_11cf1b_a177132d_XS.jpg" />关注后微信回复1024</p>
+
+<p>[三]电脑在线微信：<a href="https://wx.qq.com/" target="_blank">登陆</a></p>
+
+<p>[四]链接列表 - 不定时维护：<a href="http://1024.farbox.com/" target="_blank">1024.farbox.com</a> &nbsp;&nbsp; | &nbsp;&nbsp; <a href="http://1024.site44.com" target="_blank">1024.site44.com</a>
+</p>
+
+
+<h3>项目说明</h3>
+
+<p>本项目只适用个人学习。</p>
+
+<p>由于草榴站点很多，插件已经包含了很多现有的站点，但难免有遗漏，如果你打开草榴发现插件不起作用，请将你打开的草榴网站链接发信息给我。</p>
+
+<p>Firefox用户，请首先安装 <a target="_blank" href="https://addons.mozilla.org/zh-CN/firefox/addon/greasemonkey/versions/">Greasemonkey</a></p>
+
+<p>Chrome用户，请安装 <a target="_blank" href="http://pan.baidu.com/share/link?shareid=228403&uk=822296948">Tampermonkey</a></p>
+
+<h3>更新日志：</h3>
+
+<ul>
+<li>2014-01-03 : 更新 - 修复点击[显示]无效</li>
+<li>2014-01-03 : BUG - 排除迅雷离线页面加载脚本。感谢<a target="_blank" href="http://userscripts.org/users/498061">@文科</a></li>
+<li>2014-01-03 : 新增图片缩放 - 超大图片根据屏幕缩放(<a target="_blank" href="http://cl.man.lv/htm_data/7/1312/1001084.html">查看效果</a>)</li>
+<li>2014-01-03 : 更新 - vivi跳转更新</li>
+<li>2013-03-18 : 修复bug - 回复后滚动条跳到顶部</li>
+<li>2013-03-12 : 新增快捷键 - 修改谷歌不兼容快捷键问题</li>
+<li>2013-03-11 : 新增快捷键 - 打开帖子， __J__为下一个回复，__K__为上一个回复，点__.__返回顶部</li>
+<li>2013-03-11 : 今日帖子高亮 - 列表标题左边“.::”将改为“Today”</li>
+<li>2013-01-24 : 今日帖子高亮 - 列表标题左边“.::”将高亮为橘色，用户名下日期高亮为橘色</li>
+<li>2013-01-17 : 优化 - 不直接去掉1024的回复，改成隐藏1024回复</li>
+<li>2013-01-16 : 去掉1024的回复</li>
+<li>2013-01-05 : 按楼跳转页面,并'定位指定楼层'</li>
+<li>2012-12-23 : 帖子按楼跳转页面，方便用户在&lt;求片求助贴>找片</li>
+<li>2012-11-28 : 去广告</li>
+<li>2012-11-15 : 磁链接转化</li>
+</ul>
