@@ -2,8 +2,8 @@
 // @name CL1024
 // @version 1.1.9
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」
-// @downloadURL	http://userscripts.org/scripts/source/151695.user.js
-// @updateURL   http://userscripts.org/scripts/source/151695.meta.js
+// @downloadURL http://userscripts.org/scripts/source/151695.user.js
+// @updateURL http://userscripts.org/scripts/source/151695.meta.js
 // @copyright 2012-2013 The CYW
 // @require http://code.jquery.com/jquery.min.js
 // @include http://*t66y*
@@ -14,7 +14,7 @@
 // @include http://*1024*
 // @include http://*caoliu*
 // @exclude http://*xunlei*
-// @grant       none
+// @grant none
 // ==/UserScript==
 
 // @author	rose1988c
@@ -35,12 +35,12 @@
 // @1.1.7	2014-01-03	更新 - 超高清、大图根据屏幕尺寸缩放到适合屏幕大小
 // @1.1.7	2014-01-03	BUG - 修复点击[显示]无效
 // @1.1.8	2014-01-04	更新 - 新增点击下载种子
-// @1.1.9	2014-1-14   增加统计
+// @1.1.9	2014-1-14	增加统计
 
 ;(function (){
         
         var CONSTANTS = {
-        		'version' : '1.1.9',
+                'version' : '1.1.9',
                 'localurl' : window.location.href,
                 'localhost' : window.location.host,
                 'regularVii' : /www.viidii.com|www.viidii.info/,
@@ -143,7 +143,8 @@
                         });
 
                         $("#gotolc").click(function(){
-                            var wantlc = parseInt($(this).prev().val());// 想去的楼层 - cyw
+                            var wantlc = parseInt($(this).prev().val());// 想去的楼层
+																		// - cyw
                             var locationurlarray = UTILS.getQueryString(CONSTANTS.localurl);
                             
                             if (wantlc != '') {
@@ -172,7 +173,8 @@
                                     // window.open();
                                     return false;
                                 } else {
-                                    locationurlarray = CONSTANTS.localurl.split("/");// Get tid
+                                    locationurlarray = CONSTANTS.localurl.split("/");// Get
+																						// tid
                                     var tid = locationurlarray.pop().split(".");
                                     if (typeof(tid[0]) != "undefined") {
                                             tid = tid[0];
@@ -185,7 +187,7 @@
                 
                         UTILS.html_scrollTop_target(target);
 
-                        //hide1024
+                        // hide1024
                         $("div.t2").each(function(){
                                 var thiz = $(this);
                                 var html = thiz.children().find('.tpc_content').html();
@@ -206,7 +208,7 @@
                                 $("#" + thiz_id).toggleClass("hidden1024");
                         });
 
-                        //快捷键
+                        // 快捷键
                         $(document).keydown(function(e){
                     if(e.keyCode == KEY_ASCLL.j) {
                                         UTILS.shortcut_key_current();
@@ -376,7 +378,7 @@
         while(++i < 91) {
                 KEY_ASCLL[String.fromCharCode(i).toLowerCase()] = i;
         }
-        //hotkey
+        // hotkey
         
         var imgReady = (function () {
             var list = [], intervalId = null,
@@ -504,10 +506,10 @@
                 　　     return array.slice(0,n).concat(array.slice(n+1,array.length));
                     }
                 　　/*
-                         * concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。
-                         * 这里就是返回this.slice(0,n)/this.slice(n+1,this.length)
-                         * 组成的新数组，这中间，刚好少了第n项。 slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。
-                         */
+					 * concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。
+					 * 这里就是返回this.slice(0,n)/this.slice(n+1,this.length)
+					 * 组成的新数组，这中间，刚好少了第n项。 slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。
+					 */
                 },
             onlynum: function (input){
                 $("#" + input).keyup(function(e){
@@ -575,8 +577,8 @@
                         }
             },
              /**
-             * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
-             */ 
+				 * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
+				 */ 
          	data_format : function(data, format){ 
                  var o = { 
                       "M+" :  data.getMonth()+1,  // month
@@ -633,6 +635,6 @@
             }
         };
         
-        //太阳系行星工作
+        // 太阳系行星工作
         PLANETWORK.Solar();
 })();
