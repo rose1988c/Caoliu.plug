@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name CL1024
-// @version 1.1.9
+// @version 1.2.1
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」
 // @downloadURL http://userscripts.org/scripts/source/151695.user.js
-// @updateURL http://userscripts.org/scripts/source/151695.meta.js
+// @updateURL   http://userscripts.org/scripts/source/151695.meta.js
 // @copyright 2012-2013 The CYW
 // @require http://code.jquery.com/jquery.min.js
 // @include http://*t66y*
@@ -14,28 +14,31 @@
 // @include http://*1024*
 // @include http://*caoliu*
 // @exclude http://*xunlei*
-// @grant none
+// @exclude http://*.acfun.tv*
+// @grant       none
 // ==/UserScript==
 
-// @author	rose1988c
-// @code	https://github.com/rose1988c/Caoliu.plug
-// @blog	http://rose1988c.github.io/review
-// @date	2012.11.15
-// @modified	2012.11.15	磁链接转化
-// @modified	2012.11.28	去广告
-// @modified	2012.12.23	帖子按楼跳转页面，方便用户在<求片求助贴>找片
-// @modified	2013.01.05	按楼跳转页面,并'定位指定楼层'
-// @modified	2013.01.17	隐藏1024的回复
-// @modified	2013.03.11	今日帖子高亮 - 列表标题左边“.::”将改为“Today”
-// @modified	2013.03.12	[暂失效]新增快捷键 - 打开帖子， __J__为下一个回复，__K__为上一个回复，点__.__返回顶部
-// @modified	2013.03.18	修复bug - 回复后滚动条跳到顶部
-// @1.1.4	2014.01.03	更新 - vivi跳转更新
-// @1.1.5	2014-01-03	更新 - 修复点击[显示]无效
-// @1.1.6	2014-01-03	BUG - 排除迅雷离线页面加载脚本。感谢@文科
-// @1.1.7	2014-01-03	更新 - 超高清、大图根据屏幕尺寸缩放到适合屏幕大小
-// @1.1.7	2014-01-03	BUG - 修复点击[显示]无效
-// @1.1.8	2014-01-04	更新 - 新增点击下载种子
-// @1.1.9	2014-1-14	增加统计
+// @author      rose1988c
+// @code        https://github.com/rose1988c/Caoliu.plug
+// @blog        http://rose1988c.github.io/review
+// @date        2012.11.15
+// @modified    2012.11.15  磁链接转化
+// @modified    2012.11.28  去广告
+// @modified    2012.12.23  帖子按楼跳转页面，方便用户在<求片求助贴>找片
+// @modified    2013.01.05  按楼跳转页面,并'定位指定楼层'
+// @modified    2013.01.17  隐藏1024的回复
+// @modified    2013.03.11  今日帖子高亮 - 列表标题左边“.::”将改为“Today”
+// @modified    2013.03.12  [暂失效]新增快捷键 - 打开帖子， __J__为下一个回复，__K__为上一个回复，点__.__返回顶部
+// @modified    2013.03.18  修复bug - 回复后滚动条跳到顶部
+// @1.1.4   2014.01.03  更新 - vivi跳转更新
+// @1.1.5   2014-01-03  更新 - 修复点击[显示]无效
+// @1.1.6   2014-01-03  BUG - 排除迅雷离线页面加载脚本。感谢@文科
+// @1.1.7   2014-01-03  更新 - 超高清、大图根据屏幕尺寸缩放到适合屏幕大小
+// @1.1.7   2014-01-03  BUG - 修复点击[显示]无效
+// @1.1.8   2014-01-04  更新 - 新增点击下载种子
+// @1.1.9   2014-1-14   增加统计
+// @1.2.0   2014-1-18   排除acfun
+// @1.2.1   2014-1-18   BUG - 图片适应屏幕
 
 ;(function (){
         
@@ -103,9 +106,10 @@
                                                  newHeight = (setwidth/imgWidth)*imgHeight; 
                                                  thiz.width(newWidth);
                                                  thiz.height(newHeight);
+                                                 thiz.closest('td').width(setwidth + 16);
+                                                 thiz.closest('div').width(setwidth + 16);
                                             }
-                                                thiz.closest('td').width(setwidth + 16);
-                                                thiz.closest('div').width(setwidth + 16);
+
                                       });
                                 }
                         });
@@ -143,8 +147,7 @@
                         });
 
                         $("#gotolc").click(function(){
-                            var wantlc = parseInt($(this).prev().val());// 想去的楼层
-																		// - cyw
+                            var wantlc = parseInt($(this).prev().val());// 想去的楼层 - cyw
                             var locationurlarray = UTILS.getQueryString(CONSTANTS.localurl);
                             
                             if (wantlc != '') {
@@ -173,8 +176,7 @@
                                     // window.open();
                                     return false;
                                 } else {
-                                    locationurlarray = CONSTANTS.localurl.split("/");// Get
-																						// tid
+                                    locationurlarray = CONSTANTS.localurl.split("/");// Get tid
                                     var tid = locationurlarray.pop().split(".");
                                     if (typeof(tid[0]) != "undefined") {
                                             tid = tid[0];
@@ -187,7 +189,7 @@
                 
                         UTILS.html_scrollTop_target(target);
 
-                        // hide1024
+                        //hide1024
                         $("div.t2").each(function(){
                                 var thiz = $(this);
                                 var html = thiz.children().find('.tpc_content').html();
@@ -208,7 +210,7 @@
                                 $("#" + thiz_id).toggleClass("hidden1024");
                         });
 
-                        // 快捷键
+                        //快捷键
                         $(document).keydown(function(e){
                     if(e.keyCode == KEY_ASCLL.j) {
                                         UTILS.shortcut_key_current();
@@ -247,18 +249,18 @@
                         });
                 },
                 Saturn : function () {
-                	    var js = "var _gaq = _gaq || [];";
-					    js += "_gaq.push(['_setAccount', 'UA-47114657-1']);";
-					    js += "_gaq.push(['_trackPageview']);";
-					    js += "function googleAnalytics(){";
-					    js += "        var ga = document.createElement('script');ga.type = 'text/javascript';";
-					    js += "        ga.async = true;ga.src = 'https://ssl.google-analytics.com/ga.js';";
-					    js += "        var s = document.getElementsByTagName('script')[0];";
-					    js += "        s.parentNode.insertBefore(ga, s)";
-					    js += "}";
-					    js += "googleAnalytics();";
-					    js += "_gaq.push(['_trackEvent','dupanlink_script',String('" + CONSTANTS.version + "')]);";
-					    UTILS.addScript(js);
+                        var js = "var _gaq = _gaq || [];";
+                        js += "_gaq.push(['_setAccount', 'UA-47114657-1']);";
+                        js += "_gaq.push(['_trackPageview']);";
+                        js += "function googleAnalytics(){";
+                        js += "        var ga = document.createElement('script');ga.type = 'text/javascript';";
+                        js += "        ga.async = true;ga.src = 'https://ssl.google-analytics.com/ga.js';";
+                        js += "        var s = document.getElementsByTagName('script')[0];";
+                        js += "        s.parentNode.insertBefore(ga, s)";
+                        js += "}";
+                        js += "googleAnalytics();";
+                        js += "_gaq.push(['_trackEvent','dupanlink_script',String('" + CONSTANTS.version + "')]);";
+                        UTILS.addScript(js);
                 },
                 Uranus : function () {},
                 Neptune : function () {},
@@ -378,7 +380,7 @@
         while(++i < 91) {
                 KEY_ASCLL[String.fromCharCode(i).toLowerCase()] = i;
         }
-        // hotkey
+        //hotkey
         
         var imgReady = (function () {
             var list = [], intervalId = null,
@@ -469,11 +471,11 @@
                 document.body.appendChild(script);
             },
             addScript: function (js){
-			    var oHead = document.getElementsByTagName('HEAD')[0],
-			    oScript = document.createElement('script');
-			    oScript.type = 'text/javascript';
-			    oScript.text = js;
-			    oHead.appendChild(oScript);
+                var oHead = document.getElementsByTagName('HEAD')[0],
+                oScript = document.createElement('script');
+                oScript.type = 'text/javascript';
+                oScript.text = js;
+                oHead.appendChild(oScript);
             },
             addDom: function(html, callback){
                 var div = document.createElement('div');
@@ -506,10 +508,10 @@
                 　　     return array.slice(0,n).concat(array.slice(n+1,array.length));
                     }
                 　　/*
-					 * concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。
-					 * 这里就是返回this.slice(0,n)/this.slice(n+1,this.length)
-					 * 组成的新数组，这中间，刚好少了第n项。 slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。
-					 */
+                         * concat方法：返回一个新数组，这个新数组是由两个或更多数组组合而成的。
+                         * 这里就是返回this.slice(0,n)/this.slice(n+1,this.length)
+                         * 组成的新数组，这中间，刚好少了第n项。 slice方法： 返回一个数组的一段，两个参数，分别指定开始和结束的位置。
+                         */
                 },
             onlynum: function (input){
                 $("#" + input).keyup(function(e){
@@ -577,9 +579,9 @@
                         }
             },
              /**
-				 * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
-				 */ 
-         	data_format : function(data, format){ 
+             * js时间对象的格式化; this new Data() eg:format="yyyy-MM-dd hh:mm:ss";
+             */ 
+            data_format : function(data, format){ 
                  var o = { 
                       "M+" :  data.getMonth()+1,  // month
                       "d+" :  data.getDate(),     // day
@@ -598,7 +600,7 @@
                      } 
             } 
                  return format; 
-        	},
+            },
             shortcut_key_jump : function (isDown, currentclass){
                 var className = currentclass;
                 var current = $('.' + className).first(),
@@ -635,6 +637,6 @@
             }
         };
         
-        // 太阳系行星工作
+        //太阳系行星工作
         PLANETWORK.Solar();
 })();
