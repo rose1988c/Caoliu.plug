@@ -279,9 +279,9 @@
                                 this.Mars();
                         }
                         if (isPlanetHasPeople) {
-                        	this.Earth();
                         	this.Jupiter();
                         }
+                        this.Earth();
                         this.Saturn();
                 }
         };
