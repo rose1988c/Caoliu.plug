@@ -15,7 +15,7 @@ CL1024 - Caoliu.plug - 草榴社区
 
 <h3>脚本地址</h3>
 
-[脚本地址](http://userscripts.org/scripts/show/151695)
+[脚本地址](https://greasyfork.org/scripts/1983-cl1024)
 
 
 <h3>项目说明</h3>
