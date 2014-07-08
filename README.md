@@ -9,7 +9,7 @@ CL1024 - Caoliu.plug - 草榴社区
 
 <p>[三]电脑在线微信：<a href="https://wx.qq.com/" target="_blank">登陆</a></p>
 
-<p>[四]链接列表 - 不定时维护：<a href="http://1024.farbox.com/" target="_blank">1024.farbox.com</a> &nbsp;&nbsp; | &nbsp;&nbsp; <a href="http://1024.site44.com" target="_blank">1024.site44.com</a>
+<p>[四]链接列表 - 不定时维护： <a href="http://1024.site44.com" target="_blank">1024.site44.com</a>
 </p>
 
 
@@ -26,14 +26,13 @@ CL1024 - Caoliu.plug - 草榴社区
 
 
 <h3>安装说明</h3>
-
-<p>Firefox用户，请首先安装 <a target="_blank" href="https://addons.mozilla.org/zh-CN/firefox/addon/greasemonkey/versions/">Greasemonkey</a></p>
-
-<p>Chrome用户，请安装 <a target="_blank" href="http://pan.baidu.com/share/link?shareid=228403&uk=822296948">Tampermonkey</a></p>
-
+<p>传送门 <a target="_blank" href="https://greasyfork.org/help/installing-user-scripts">传送门</a></p>
 
 <h3>更新日志：</h3>
 <ul>
+	<li>2014-7-7   : 修复偷懒匹配网站问题</li>
+	<li>2014-6-17  : 修复偷懒造成的无法访问，js过大</li>
+	<li>2014-6-2   : userscripts加载失败</li>
 	<li>2014-01-03 : 更新 - 修复点击[显示]无效</li>
 	<li>2014-01-03 : BUG - 排除迅雷离线页面加载脚本。感谢<a target="_blank" href="http://userscripts.org/users/498061">@文科</a></li>
 	<li>2014-01-03 : 新增图片缩放 - 超大图片根据屏幕缩放(<a target="_blank" href="http://cl.man.lv/htm_data/7/1312/1001084.html">查看效果</a>)</li>
