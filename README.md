@@ -3,7 +3,7 @@ CL1024 - Caoliu.plug - 草榴社区
 
 <h3>社区地址</h3>
 
-<p>[一]直接访问：<a href="http://cl.man.lv/index.php?u=225503&ext=b005f" target="_blank">1024CL</a></p>
+<p>[一]直接访问：<a href="http://cl.168dtsj.com/index.php?u=225503&ext=b005f" target="_blank">1024CL</a></p>
 
 <p>[二]关注比特熊 - 适合pad等<img src="http://img-fotki.yandex.ru/get/6714/140361620.5/0_11cf1b_a177132d_XS.jpg" />关注后微信回复1024</p>
 
