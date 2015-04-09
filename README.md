@@ -1,6 +1,8 @@
 CL1024 - Caoliu.plug - 草榴社区
 ===========
 
+[![Join the chat at https://gitter.im/rose1988c/Caoliu.plug](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rose1988c/Caoliu.plug?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 <h3>社区地址</h3>
 
 <p>[一]直接访问：<a href="http://cl.168dtsj.com/index.php?u=225503&ext=b005f" target="_blank">1024CL</a></p>
