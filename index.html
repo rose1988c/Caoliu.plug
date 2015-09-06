@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CL1024 Chrome Extension For CL">
+    <title>CL1024 | Chrome Extension For CL</title>
+    <!-- Styles -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+                <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+                <![endif]-->
+</head>
+
+<body>
+    <div id="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 single-header-wrap">
+                    <div class="single-header-buttons">
+                        <a href="https://www.henkexue.com/"><i class="iconfont icon-home"></i></a>
+                    </div>
+                    <img class="logo" src="assets/img/logo.png" alt="" />
+                    <div class="sub-title">{<i class="iconfont icon-heart"></i>} Just for fun.Keep it simple.</div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 single-item">
+                    <div class="item-header-wrap">
+                        <div class="icon-wrap">
+                            <i class="iconfont icon-chrome"></i>
+                        </div>
+                        <div class="desc-wrap">
+                            <span>Chrome Extension Downloader</span>
+                            <div id="donate">
+                                <i class="iconfont icon-moneybox"></i>
+                                <div class="donate-wrap">
+                                    <div class="donate-header">如果你喜欢这个应用,可以适当给予捐赠,我能做得更好 <i class="iconfont icon-smile"></i></div>
+                                    <div class="donate-item-wrap">
+                                        <div class="donate-item-icon">
+                                            <i class="iconfont icon-zhifubao"></i>
+                                        </div>
+                                        <div class="donate-item-desc"><a class="no-smoothstate" id="link-alipay">转到支付宝页面 <i class="iconfont icon-right"></i></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 single-item">
+                    <div class="item-content-wrap">
+                        <div class="item-content-part">
+                            <span class="content-part-icon"><i class="iconfont icon-iconclouddownloadalt"></i></span>
+                            <form action="#" method="post" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="inputSuccess1">扩展程序页面URL</label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="url" class="form-control" id="inputSuccess1" placeholder="https://chrome.google.com/webstore/detail/...">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="submit" class="btn btn-default" value="Download" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="item-content-part">
+                            <span class="content-part-icon"><i class="iconfont icon-ue60fquestion"></i></span>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="app_info">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="app_info_item">
+                                                    <div class="info_title">
+                                                        关于 Chrome Extension Downloader
+                                                    </div>
+                                                    <div class="info_content">
+                                                        由于种种原因,Chrome浏览器的扩展无法正常在线安装,或者需要将扩展保存以备下次安装使用. Chrome Extension Downloader 可以帮助你将任何Chrome浏览器扩展保存成crx安装包.
+                                                    </div>
+                                                </div>
+                                                <div class="app_info_item">
+                                                    <div class="info_title">
+                                                        如何使用 Chrome Extension Downloader
+                                                    </div>
+                                                    <div class="info_content">
+                                                        <ol>
+                                                            <li>打开Chrome网上应用商店</li>
+                                                            <li>点击任意扩展程序,复制Chrome浏览器地址栏中扩展程序对应的地址. 类似于:
+                                                                <br/>https://chrome.google.com/webstore/detail/checker-plus-for-gmail/oeopbcgkkoapgobdbedcemjljbihmemj
+                                                                <br/>( 地址中的 https 不能省略. )</li>
+                                                            <li>将复制好的地址粘贴于上方的输入框内,点击下载按钮即可</li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                                <div class="app_info_item">
+                                                    <div class="info_title">
+                                                        如何安装crx文件
+                                                    </div>
+                                                    <div class="info_content">
+                                                        <ol>
+                                                            <li>点击Chrome浏览器右上角的菜单按钮.依次点击 "更多工具"---"扩展程序",打开扩展程序页面.( 由于Chrome浏览器的版本不同,菜单的位置和名称可能略有不同,比较通用的做法是直接使用Chrome内置地址来打开扩展程序页面.做法是在Chrome地址栏直接输入 chrome://extensions/ 进行访问即可. )</li>
+                                                            <li>在打开的扩展程序页面,将之前保存的扩展安装包crx文件拖放到此页面.然后根据提示进行安装即可. ( 值得注意的是,某些Chrome扩展程序强制要求必须从应用商店安装.则此种安装方式不可用. )</li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="footer-wrap">
+                            <div class="footer-content">
+                                <a class="bplab_link" href="http://www.txd.me" target="_blank">
+                                    <img src="assets/img/txdme_logo.png" alt="" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/hkx-main-rel.js"></script>
+    <div class="hidden">
+        <script src="https://s23.cnzz.com/z_stat.php?id=1000283290&web_id=1000283290" language="JavaScript"></script>
+    </div>
+</body>
+
+</html>
