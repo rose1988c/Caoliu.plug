@@ -1,9 +1,23 @@
 CL1024 - Caoliu.plug - 草榴社区
 ===========
 
+<h3>chrome插件地址</h3>
+
+<p>[一]直接访问商店：<a href="https://chrome.google.com/webstore/detail/cl1024/acepnhnkhmopdalklljkpnijmpammmjm" target="_blank">chrome shop</a></p>
+
+<p>[二]直接下载：<a href="http://7xlkqk.com1.z0.glb.clouddn.com/build.crx" target="_blank">下载</a></p>
+
+<p>直接下载安装步骤，在chrome地址栏输入 chrome://extensions/ 回车，并将下载的`crx`文件拖入chrome浏览器</p>
+
+<p>
+	<img src="http://img-fotki.yandex.ru/get/6714/140361620.5/0_11cf1b_a177132d_XS.jpg" />
+</p>
+
+
+
 <h3>社区地址</h3>
 
-<p>[一]直接访问：<a href="http://cl.168dtsj.com/index.php?u=225503&ext=b005f" target="_blank">1024CL</a></p>
+<p>[一]直接访问：<a href="http://aaurl.sinaapp.com/bz" target="_blank">1024CL</a></p>
 
 <p>[二]关注比特熊 - 适合pad等<img src="http://img-fotki.yandex.ru/get/6714/140361620.5/0_11cf1b_a177132d_XS.jpg" />关注后微信回复1024</p>
 
