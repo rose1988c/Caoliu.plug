@@ -10,9 +10,9 @@ CL1024 - Caoliu.plug - 草榴社区
 <p>直接下载安装步骤，在chrome地址栏输入 chrome://extensions/ 回车，并将下载的`crx`文件拖入chrome浏览器</p>
 
 <p>
-	<img src="http://img-fotki.yandex.ru/get/6714/140361620.5/0_11cf1b_a177132d_XS.jpg" />
+	<img src="http://7xlkqk.com1.z0.glb.clouddn.com/xc/cut1.png" />
+	<img src="http://7xlkqk.com1.z0.glb.clouddn.com/xc/cut440_280.png" />
 </p>
-
 
 
 <h3>社区地址</h3>
