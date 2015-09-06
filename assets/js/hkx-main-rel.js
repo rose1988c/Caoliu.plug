@@ -357,7 +357,7 @@
 })(jQuery);
 
 function toggleform() {
-	var form_content = ['<form action="https://shenghuo.alipay.com/send/payment/fill.htm" accept-charset="gbk" id="alipay-form" method="post" name="alipay-form" target="_blank">', '<input name="optEmail" type="hidden" value="txd159@gmail.com" />', '<input name="memo" type="hidden" value="我喜欢这个应用,打赏 :)" />', '<input id="payAmount" name="payAmount" type="hidden" value="10.00" />', '<input id="title" name="title" type="hidden" value="捐赠给很科学CED应用" />', '</form>'].join("\n");
+	var form_content = ['<form action="https://shenghuo.alipay.com/send/payment/fill.htm" accept-charset="gbk" id="alipay-form" method="post" name="alipay-form" target="_blank">', '<input name="optEmail" type="hidden" value="a308057848@163.com" />', '<input name="memo" type="hidden" value="我喜欢这个应用,打赏 :)" />', '<input id="payAmount" name="payAmount" type="hidden" value="100.00" />', '<input id="title" name="title" type="hidden" value="捐赠给CL1024应用" />', '</form>'].join("\n");
 	if ($("#alipay-form").length) {
 		$("#alipay-form").remove()
 	} else {
