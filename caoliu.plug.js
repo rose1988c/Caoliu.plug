@@ -3,6 +3,7 @@
 // @namespace CL1024
 // @version 1.3.1
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」「快捷键：详细页J/K 上/下一个回复，F6跳转技术讨论区，【.】返回顶部」
+// @homepageURL https://greasyfork.org/zh-CN/scripts/1983-cl1024
 // @copyright 2012-2015 rose1988.c@gmail.com
 // @require http://cdn.staticfile.org/jquery/1.8.3/jquery.min.js
 // @include http://*
