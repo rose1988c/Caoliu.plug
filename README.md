@@ -6,7 +6,7 @@ CL1024 - Caoliu.plug - 草榴社区
 
 <h3>Chrome插件地址</h3>
 
-<p>宣传页：<a href="//chenyunwen.cn/Caoliu.plug" target="_blank">传送门</a></p>
+<p>宣传页：<a href="http://chenyunwen.cn/Caoliu.plug" target="_blank">传送门</a></p>
 
 <p>[一]直接访问商店：<a href="https://chrome.google.com/webstore/detail/cl1024/acepnhnkhmopdalklljkpnijmpammmjm" target="_blank">chrome shop</a></p>
 
