@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name CL1024
 // @namespace CL1024
-// @version 1.3.1
+// @version 1.3.2
 // @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」「快捷键：详细页J/K 上/下一个回复，F6跳转技术讨论区，【.】返回顶部」
 // @homepageURL https://greasyfork.org/zh-CN/scripts/1983-cl1024
 // @copyright 2012-2015 rose1988.c@gmail.com
@@ -38,6 +38,7 @@
 // @1.2.9   2014-7-7    修复偷懒匹配网站问题
 // @1.3.0   2015-9-6    修复反馈的bug，匹配网站、和第二页黑屏，增加chrome插件提示
 // @1.3.1   2015-9-6    修改chrome发布网址
+// @1.3.2   2015-9-10   取出google统计
 
 (function() {
   if (document.title.indexOf('草榴') != -1) {
@@ -700,18 +701,18 @@
           this.Venus();
           this.Mars();
           this.Earth();
-          this.Saturn();
+          //this.Saturn();
           this.Pluto();//样式
         } else if (isPlanetHasPeople) {
           this.Jupiter();
           this.Earth();
-          this.Saturn();
+          //this.Saturn();
           this.Pluto();//样式
 
           UTILS.addDomObj('<tr align="center" class="tr3 t_one"><td><a title="下载chrome插件" href="http://chenyunwen.cn/Caoliu.plug/" target="_blank" class="posttoday hightLight hightLightFirst" style="border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(255, 99, 71);">Today</a></td>\
 <td style="text-align:left;padding-left:8px" id=""> \
 <h3><a style="color:green;" href="http://chenyunwen.cn/Caoliu.plug/" target="_blank" id="">rose1988c推出更强大的CL1024谷歌插件，欢迎下载</a></h3>  \
-<font color="green">[積分+99999]</font><i style="color:red">new</i></td>\
+<font color="green">[積分+999]</font><i style="color:red">new</i></td>\
 <td class="tal y-style"><a href="http://chenyunwen.cn/Caoliu.plug/" class="bl">rose1988c</a>\
 <div class="f10">2015-09-06</div></td>\
 <td class="tal f10 y-style">MarkTop</td>\
