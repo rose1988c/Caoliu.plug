@@ -114,27 +114,7 @@
                                                 </div>
                                                 <div class="app_info_item">
                                                     <div class="info_content">
-                                                        <form class="am-form">
-                                                            <fieldset>
-                                                                <legend>意见反馈</legend>
-                                                                <div class="am-form-group">
-                                                                    <label>留言</label>
-                                                                    <div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="am-form-group">
-                                                                    <label for="doc-ipt-email-1">联系方式</label>
-                                                                    <input type="email" name="email" class="" placeholder="输入电子邮件">
-                                                                </div>
-                                                                <div class="am-form-group">
-                                                                    <label for="doc-ta-1">想说的话</label>
-                                                                    <textarea class="" name="say" rows="5"></textarea>
-                                                                </div>
-                                                                <p>
-                                                                    <button type="submit" class="am-btn am-btn-default">提交</button>
-                                                                </p>
-                                                            </fieldset>
-                                                        </form>
+                                                        <div class="ds-thread" data-thread-key="1" data-title="CL1024" data-url="http://chenyunwen.cn/Caoliu.plug/"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,22 +146,22 @@
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/hkx-main-rel.js"></script>
-    <script src="assets/js/firebase.js"></script>
-    
-    <script >
-        var firebaseUrl = 'https://chrome1024.firebaseio.com/suggest/';
-        var ref = new Firebase(firebaseUrl);
-        $("form").submit(function () {
-            var data = $(this).serializeArray();
-            var insertData = [];
-            $.each(data, function () {
-                insertData[this.name] = this.value;
-            });
-            ref.push(insertData);
-            alert("保存成功!");
-            return false;
-        });
-    </script>
+   
+
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cl1023"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+        </script>
+    <!-- 多说公共JS代码 end -->
+
 
     <div class="hidden">
         <script src="http://s11.cnzz.com/z_stat.php?id=1256268841&web_id=1256268841" language="JavaScript">
