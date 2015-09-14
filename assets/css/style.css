@@ -3622,3 +3622,7 @@ box-shadow: 0 0 6px #595959;
   -webkit-animation-name: slideOutUp;
           animation-name: slideOutUp;
 }
+.ds-powered-by
+{
+  display: none;
+}
