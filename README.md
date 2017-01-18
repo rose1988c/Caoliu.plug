@@ -8,27 +8,13 @@ CL1024 - Caoliu.plug - 草榴社区
 
 <p>宣传页：<a href="http://cl.aacc.in" target="_blank">传送门</a></p>
 
-<p>[一]直接访问商店：<a href="https://chrome.google.com/webstore/detail/cl1024/acepnhnkhmopdalklljkpnijmpammmjm" target="_blank">chrome shop</a></p>
-
-<p>[二]直接下载：<a href="http://7xlkqk.com1.z0.glb.clouddn.com/build.crx" target="_blank">下载</a></p>
+<p>[一]直接访问商店：<a href="https://chrome.google.com/webstore/detail/cl1024/efdllnloheadnjjahfmdohomdphlgcjm" target="_blank">chrome shop</a></p>
 
 <p>直接下载安装步骤，在chrome地址栏输入 chrome://extensions/ 回车，并将下载的`crx`文件拖入chrome浏览器</p>
 
 <p>
 	<img src="http://7xlkqk.com1.z0.glb.clouddn.com/xc/cut1.png" />
 	<img src="http://7xlkqk.com1.z0.glb.clouddn.com/xc/cut440_280.png" />
-</p>
-
-
-<h3>社区地址</h3>
-
-<p>[一]直接访问：<a href="http://aaurl.sinaapp.com/bz" target="_blank">1024CL</a></p>
-
-<p>[二]关注比特熊 - 适合pad等<img src="http://img-fotki.yandex.ru/get/6714/140361620.5/0_11cf1b_a177132d_XS.jpg" />关注后微信回复1024</p>
-
-<p>[三]电脑在线微信：<a href="https://wx.qq.com/" target="_blank">登陆</a></p>
-
-<p>[四]链接列表 - 不定时维护： <a href="http://1024.site44.com" target="_blank">1024.site44.com</a>
 </p>
 
 
