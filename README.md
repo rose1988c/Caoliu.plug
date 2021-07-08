@@ -12,11 +12,6 @@ CL1024 - Caoliu.plug - 草榴社区
 
 <p>直接下载安装步骤，在chrome地址栏输入 chrome://extensions/ 回车，并将下载的`crx`文件拖入chrome浏览器</p>
 
-<p>
-	<img src="http://7xlkqk.com1.z0.glb.clouddn.com/xc/cut1.png" />
-	<img src="http://7xlkqk.com1.z0.glb.clouddn.com/xc/cut440_280.png" />
-</p>
-
 
 <h3>脚本地址</h3>
 
