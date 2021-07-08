@@ -268,20 +268,6 @@
           }
         });
       },
-      Saturn: function() {
-        var js = 'var _gaq = _gaq || [];';
-        js += '_gaq.push([\'_setAccount\', \'UA-47114657-1\']);';
-        js += '_gaq.push([\'_trackPageview\']);';
-        js += 'function googleAnalytics(){';
-        js += '        var ga = document.createElement(\'script\');ga.type = \'text/javascript\';';
-        js += '        ga.async = true;ga.src = \'https://ssl.google-analytics.com/ga.js\';';
-        js += '        var s = document.getElementsByTagName(\'script\')[0];';
-        js += '        s.parentNode.insertBefore(ga, s)';
-        js += '}';
-        js += 'googleAnalytics();';
-        js += '_gaq.push([\'_trackEvent\',\'dupanlink_script\',String(\'' + CONSTANTS.version + '\')]);';
-        UTILS.addScript(js);
-      },
       Uranus: function() {},
       Neptune: function() {},
       Pluto: function() {
@@ -702,12 +688,10 @@
           this.Venus();
           this.Mars();
           this.Earth();
-          //this.Saturn();
           this.Pluto();//样式
         } else if (isPlanetHasPeople) {
           this.Jupiter();
           this.Earth();
-          //this.Saturn();
           this.Pluto();//样式
 
           UTILS.addDomObj('<tr align="center" class="tr3 t_one"><td><a title="下载chrome插件" href="http://cl.aacc.in/" target="_blank" class="posttoday hightLight hightLightFirst" style="border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(255, 99, 71);">Today</a></td>\
