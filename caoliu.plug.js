@@ -1,18 +1,16 @@
 // ==UserScript==
 // @name CL1024
 // @namespace CL1024
-// @version 1.3.4
-// @description 草榴社区 - 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」「快捷键：详细页J/K 上/下一个回复，F6跳转技术讨论区，【.】返回顶部」
+// @version 1.4.0
+// @description 草榴社区 - 去广告插件屏蔽 「取消viidii跳转」「种子链接转化磁链接」「去帖子广告」「阅读帖子按楼数快速跳转楼层」「帖子内隐藏1024的回复」「今日帖子加亮」「超大图片根据屏幕缩放」「快捷键：详细页J/K 上/下一个回复，F6跳转技术讨论区，【.】返回顶部」
 // @homepageURL https://greasyfork.org/zh-CN/scripts/1983-cl1024
-// @copyright 2012-2015 rose20.99.c@gmail.com
+// @copyright 2012-2022 rose1988c
 // @require http://cdn.staticfile.org/jquery/1.8.3/jquery.min.js
-// @include http://*
+// @match        https://t66y.com/*
 // @grant  GM_addStyle
 // ==/UserScript==
 
 // @author      rose1988c
-// @code        https://github.com/rose1988c/Caoliu.plug
-// @blog        http://cl.aacc.in
 // @date        2012.11.15
 // @modified    2012.11.15  磁链接转化
 // @modified    2012.11.28  去广告
@@ -40,6 +38,7 @@
 // @1.3.1   2015-9-6    修改chrome发布网址
 // @1.3.2   2015-9-10   去掉google统计
 // @1.3.3   2017-1-19   fix
+// @1.4.0   2022-09-28  “去广告插件屏蔽, 请等待10秒, 或将其关闭即刻恢复浏览” ？ 吐了，麻烦做个好产品好吗？现在完全已经被其他社区（2048，sht，chlt, lwlt）给超过了
 
 (function() {
   if (document.title.indexOf('草榴') != -1) {
@@ -680,6 +679,16 @@
                 ');
 
       },
+      OpenBlock:function(){
+          var html = $('.tpc_content:eq(0)').html();
+          var openblcokv =  setInterval(()=>{
+              var temp = $('.tpc_content:eq(0)').html();
+              if (temp.length <= 100) {
+                $('.tpc_content:eq(0)').html(html);
+                clearInterval(openblcokv)
+              }
+          }, 1000);
+      },
       Solar: function() {
         var isPlanetHasWater = this.isPlanetHasWater();
         var isPlanetHasPeople = this.isPlanetHasPeople();
@@ -689,6 +698,7 @@
           this.Mars();
           this.Earth();
           this.Pluto();//样式
+          this.OpenBlock();
         } else if (isPlanetHasPeople) {
           this.Jupiter();
           this.Earth();
